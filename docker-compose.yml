@@ -1,0 +1,38 @@
+services:
+  
+  postgres:
+    image: postgres:14.8-alpine3.18
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all -c max_connections=200
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+    volumes:
+      - ./docker/postgres/postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/postgres-migrations:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: "loadDB"
+      POSTGRES_USER: "loaderDB"
+      POSTGRES_PASSWORD: "ReSo999+"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+
+  postgres-exporter:
+    image: bitnami/postgres-exporter
+    ports:
+      - 9187:9187
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "postgresql://loaderDB:ReSo999+@192.168.1.48:5432/loadDB?sslmode=disable"
+    
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - '9090:9090'
+    restart: unless-stopped
+    volumes:
+      - ./docker/prometheus:/etc/prometheus
+      - ./docker/prometheus/prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/config.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
