@@ -21,16 +21,17 @@ services:
       - 9187:9187
     restart: unless-stopped
     environment:
-      DATA_SOURCE_NAME: "postgresql://loaderDB:ReSo999+@192.168.1.48:5432/loadDB?sslmode=disable"
+      DATA_SOURCE_NAME: "postgresql://loaderDB:ReSo999+@192.168.1.45:5432/loadDB?sslmode=disable"
     
   prometheus:
     image: prom/prometheus
     ports:
       - '9090:9090'
+    user: root
     restart: unless-stopped
     volumes:
       - ./docker/prometheus:/etc/prometheus
-      - ./docker/prometheus/prometheus-data:/prometheus
+      - ./docker/prometheus/prometheus-data/:/prometheus/
     command:
       - '--config.file=/etc/prometheus/config.yml'
       - '--storage.tsdb.path=/prometheus'

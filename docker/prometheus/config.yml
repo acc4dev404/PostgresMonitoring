@@ -7,6 +7,6 @@ scrape_configs:
     scrape_interval: 5s
     static_configs:
       - targets:
-          - 192.168.1.48:9187
+          - 192.168.1.45:9187
         labels:
           alias: postgres
