@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "emails" (
 );
 
 -- UNIQUE
-CREATE INDEX users_login_idx_btree ON "users" ("login");
-CREATE INDEX emails_email_idx_btree ON "emails" ("email");
+CREATE INDEX IF NOT EXISTS users_login_idx_btree ON "users" ("login");
+CREATE INDEX IF NOT EXISTS emails_email_idx_btree ON "emails" ("email");
 
 -- INSERT INTO "users" ("login", "password")
 -- VALUES ('Test 1', 'Test 1'),
