@@ -16,7 +16,7 @@ services:
       PGDATA: "/var/lib/postgresql/data/pgdata"
 
   postgres-exporter:
-    image: bitnami/postgres-exporter
+    image: bitnami/postgres-exporter:0.15.0
     ports:
       - 9187:9187
     restart: unless-stopped
@@ -24,7 +24,7 @@ services:
       DATA_SOURCE_NAME: "postgresql://loaderDB:ReSo999+@192.168.1.45:5432/loadDB?sslmode=disable"
     
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:v2.54.1
     ports:
       - '9090:9090'
     user: root
